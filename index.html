@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAIA IDP — Sistema de Procesamiento Inteligente de Documentos</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">GAIA</div>
+      <div class="sub">Sistema IDP</div>
+    </div>
+    <nav>
+      <a class="nav-item active" onclick="goto('dashboard')">
+        <i class="ti ti-layout-dashboard"></i><span>Dashboard</span>
+      </a>
+      <a class="nav-item" onclick="goto('upload')">
+        <i class="ti ti-upload"></i><span>Cargar documento</span>
+      </a>
+      <a class="nav-item" onclick="goto('history')">
+        <i class="ti ti-files"></i><span>Historial</span>
+      </a>
+      <a class="nav-item" onclick="goto('review')">
+        <i class="ti ti-eye"></i><span>Revisión manual</span>
+      </a>
+      <a class="nav-item" onclick="goto('settings')">
+        <i class="ti ti-settings"></i><span>Configuración</span>
+      </a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar">LP</div>
+      <div>
+        <div class="u-name">Roberto Alcivar</div>
+        <div class="u-role">Product Owner</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <!-- Topbar (dynamic) -->
+    <div class="topbar" id="topbar">
+      <div>
+        <div class="topbar-title" id="tb-title">Dashboard</div>
+        <div class="topbar-sub" id="tb-sub">Julio 2026</div>
+      </div>
+      <div id="tb-actions">
+        <button class="btn btn-dark" onclick="goto('upload')">
+          <i class="ti ti-upload"></i> Cargar documento
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: DASHBOARD ═══ -->
+    <section class="screen active" id="screen-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Procesados hoy</div>
+          <div class="stat-value">47</div>
+          <div class="stat-delta up">↑ 12 vs ayer</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Precisión promedio</div>
+          <div class="stat-value green">97.3%</div>
+          <div class="stat-delta">Meta: ≥ 95%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">En revisión manual</div>
+          <div class="stat-value orange">5</div>
+          <div class="stat-delta">10.6% del total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Tiempo promedio</div>
+          <div class="stat-value">18s</div>
+          <div class="stat-delta">Meta: &lt; 30s</div>
+        </div>
+      </div>
+
+      <div class="two-col" style="flex:1; min-height:0;">
+        <!-- Table -->
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="card-header"><i class="ti ti-files"></i> Documentos recientes</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Archivo</th>
+                <th>Tipo</th>
+                <th>Certeza</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="goto('detail')" style="cursor:pointer;">
+                <td style="font-weight:500;">INV_SHENZHEN_0048.pdf</td>
+                <td><span class="badge gray">Factura</span></td>
+                <td><span class="acc high">98.2%</span></td>
+                <td><span class="badge green">Aprobado</span></td>
+              </tr>
+              <tr onclick="goto('review')" style="cursor:pointer;">
+                <td style="font-weight:500;">PL_GUANGZHOU_0031.pdf</td>
+                <td><span class="badge gray">Packing list</span></td>
+                <td><span class="acc mid">83.7%</span></td>
+                <td><span class="badge orange">En revisión</span></td>
+              </tr>
+              <tr onclick="goto('detail')" style="cursor:pointer;">
+                <td style="font-weight:500;">INV_BEIJING_0022.pdf</td>
+                <td><span class="badge gray">Factura</span></td>
+                <td><span class="acc high">96.5%</span></td>
+                <td><span class="badge green">Aprobado</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:500;">PL_SHANGHAI_0019.pdf</td>
+                <td><span class="badge gray">Packing list</span></td>
+                <td><span class="acc low">71.2%</span></td>
+                <td><span class="badge red">Rechazado</span></td>
+              </tr>
+              <tr onclick="goto('detail')" style="cursor:pointer;">
+                <td style="font-weight:500;">INV_SHENZHEN_0046.pdf</td>
+                <td><span class="badge gray">Factura</span></td>
+                <td><span class="acc high">99.1%</span></td>
+                <td><span class="badge green">Aprobado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Right panel -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="card">
+            <div class="card-header"><i class="ti ti-chart-bar"></i> Precisión por tipo</div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+              <div class="prog-row">
+                <div class="prog-top"><span>Facturas</span><span style="color:var(--gaia-green-d);font-weight:600;">97.8%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="width:97.8%"></div></div>
+              </div>
+              <div class="prog-row">
+                <div class="prog-top"><span>Packing lists</span><span style="color:var(--gaia-med);font-weight:600;">93.4%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="width:93.4%;background:var(--gaia-med)"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><i class="ti ti-calendar-stats"></i> Resumen del mes</div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:12px;color:var(--text-2);">Aprobados</span>
+                <span style="font-size:14px;font-weight:600;color:var(--success-tx);">312</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:12px;color:var(--text-2);">En revisión</span>
+                <span style="font-size:14px;font-weight:600;color:#C8860A;">28</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:12px;color:var(--text-2);">Rechazados</span>
+                <span style="font-size:14px;font-weight:600;color:#DC2626;">7</span>
+              </div>
+              <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:12px;color:var(--text-2);font-weight:500;">Total</span>
+                <span style="font-size:14px;font-weight:700;color:var(--text-1);">347</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SCREEN: UPLOAD ═══ -->
+    <section class="screen" id="screen-upload">
+      <div class="card" style="max-width:640px;width:100%;margin:0 auto;align-self:flex-start;">
+        <div class="card-body" style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Dropzone -->
+          <div class="dropzone" onclick="simularArchivo()" id="dropzone">
+            <div class="dz-icon"><i class="ti ti-cloud-upload" style="font-size:28px;color:var(--gaia-med);"></i></div>
+            <div class="dz-title">Arrastra tu archivo aquí</div>
+            <div class="dz-sub">o haz clic para seleccionar</div>
+            <div class="dz-note">PDF · máximo 500 páginas</div>
+          </div>
+
+          <!-- Tipo de documento -->
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-1);margin-bottom:10px;">Tipo de documento</div>
+            <div class="type-grid">
+              <div class="type-opt selected" id="t-factura" onclick="selectTipo('factura')">
+                <i class="ti ti-file-invoice"></i>
+                <div><div class="t-name">Factura</div><div class="t-sub">Commercial Invoice</div></div>
+              </div>
+              <div class="type-opt" id="t-packing" onclick="selectTipo('packing')">
+                <i class="ti ti-package"></i>
+                <div><div class="t-name">Packing list</div><div class="t-sub">Lista de empaque</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- File preview -->
+          <div class="file-preview" id="file-preview">
+            <div class="fp-row">
+              <div class="fp-icon"><i class="ti ti-file-type-pdf" style="font-size:20px;color:#DC2626;"></i></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:600;color:var(--text-1);">INV_SHENZHEN_0048.pdf</div>
+                <div style="font-size:11px;color:var(--text-2);">2.4 MB · 34 páginas</div>
+              </div>
+              <i class="ti ti-circle-check-filled" style="font-size:22px;color:var(--gaia-green);"></i>
+            </div>
+
+            <!-- Process steps -->
+            <div class="proc-steps" id="proc-steps">
+              <div style="margin:12px 0 6px;font-size:12px;font-weight:500;color:var(--text-2);">Procesando documento…</div>
+              <div class="step-row" id="s1">
+                <div class="step-dot pending"><i class="ti ti-clock" style="font-size:11px;"></i></div>
+                <span style="font-size:12px;color:var(--text-2);">Clasificando tipo de documento</span>
+              </div>
+              <div class="step-row" id="s2">
+                <div class="step-dot pending"><i class="ti ti-clock" style="font-size:11px;"></i></div>
+                <span style="font-size:12px;color:var(--text-2);">Extrayendo texto con OCR (Tesseract)</span>
+              </div>
+              <div class="step-row" id="s3">
+                <div class="step-dot pending"><i class="ti ti-clock" style="font-size:11px;"></i></div>
+                <span style="font-size:12px;color:var(--text-2);">Validando campos con IA (Ollama)</span>
+              </div>
+              <div class="step-row" id="s4">
+                <div class="step-dot pending"><i class="ti ti-clock" style="font-size:11px;"></i></div>
+                <span style="font-size:12px;color:var(--text-2);">Aplicando reglas de negocio</span>
+              </div>
+              <div class="step-row" id="s5">
+                <div class="step-dot pending"><i class="ti ti-clock" style="font-size:11px;"></i></div>
+                <span style="font-size:12px;color:var(--text-2);">Guardando en base de datos</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-dark" style="width:100%;justify-content:center;" onclick="iniciarProceso()">
+            <i class="ti ti-bolt"></i> Procesar documento
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SCREEN: EXTRACTION RESULTS ═══ -->
+    <section class="screen" id="screen-results">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+        <div class="file-header">
+          <div class="fh-icon"><i class="ti ti-file-type-pdf" style="font-size:18px;color:#DC2626;"></i></div>
+          <div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-1);">INV_SHENZHEN_0048.pdf</div>
+            <div style="font-size:12px;color:var(--text-2);">Factura · 34 páginas · procesado en 18s</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="badge green" style="font-size:12px;padding:5px 12px;">
+            <i class="ti ti-circle-check" style="font-size:13px;"></i> 97.3% certeza global
+          </span>
+          <button class="btn btn-dark btn-sm" onclick="goto('detail')"><i class="ti ti-download"></i> Exportar</button>
+        </div>
+      </div>
+
+      <div class="split" style="flex:1;min-height:400px;">
+        <div class="split-left">
+          <div class="split-header"><i class="ti ti-file-text" style="font-size:14px;"></i> Vista del documento</div>
+          <div class="split-body" style="padding:14px;">
+            <div class="pdf-mock">
+              <h4>COMMERCIAL INVOICE</h4>
+              <div class="pdf-row"><span class="pdf-lbl">INVOICE NO: </span><span class="hl-blue">INV-2026-0048</span></div>
+              <div class="pdf-row"><span class="pdf-lbl">DATE: </span><span class="hl-blue">2026-07-10</span></div>
+              <div class="pdf-row"><span class="pdf-lbl">SELLER: </span><span class="hl-blue">Shenzhen Tech Co., Ltd.</span></div>
+              <div class="pdf-row"><span class="pdf-lbl">BUYER: </span><span class="hl-blue">GAIA Consultores RPA S.A.</span></div>
+              <div class="pdf-row"><span class="pdf-lbl">INCOTERM: </span><span class="hl-yellow">FOB Shanghai</span></div>
+              <table class="pdf-table">
+                <thead><tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Amount</th></tr></thead>
+                <tbody>
+                  <tr><td class="hl-red" style="border:1.5px dashed #DC2626;">Electronic Comp. A-200</td><td class="hl-blue">500</td><td class="hl-blue">USD 12.50</td><td class="hl-blue">USD 6,250.00</td></tr>
+                  <tr><td>Sensor Module B-45</td><td class="hl-blue">200</td><td class="hl-blue">USD 34.00</td><td class="hl-blue">USD 6,800.00</td></tr>
+                  <tr style="background:#F1F5F9;font-weight:600;"><td colspan="3" style="text-align:right;">TOTAL</td><td class="hl-blue">USD 13,050.00</td></tr>
+                </tbody>
+              </table>
+              <div class="pdf-row" style="margin-top:10px;"><span class="pdf-lbl">HS CODE: </span><span class="hl-blue">8542.31.00</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:10px;">
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;"><span class="hl-blue">campo</span><span style="color:var(--text-2);">Alta certeza (≥ 95%)</span></div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;"><span class="hl-yellow">campo</span><span style="color:var(--text-2);">Revisión (80–95%)</span></div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;"><span class="hl-red">campo</span><span style="color:var(--text-2);">Corrección requerida (&lt; 80%)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-right">
+          <div class="split-header"><i class="ti ti-list-check" style="font-size:14px;"></i> Campos extraídos</div>
+          <div class="split-body">
+            <div class="field-card green"><div class="fc-top"><span class="fc-label">Número de factura</span><span class="fc-pct green">99.1%</span></div><div class="fc-value">INV-2026-0048</div></div>
+            <div class="field-card green"><div class="fc-top"><span class="fc-label">Fecha</span><span class="fc-pct green">98.4%</span></div><div class="fc-value">2026-07-10</div></div>
+            <div class="field-card green"><div class="fc-top"><span class="fc-label">Vendedor</span><span class="fc-pct green">97.6%</span></div><div class="fc-value">Shenzhen Tech Co., Ltd.</div></div>
+            <div class="field-card green"><div class="fc-top"><span class="fc-label">Comprador</span><span class="fc-pct green">96.8%</span></div><div class="fc-value">GAIA Consultores RPA S.A.</div></div>
+            <div class="field-card green"><div class="fc-top"><span class="fc-label">Total factura</span><span class="fc-pct green">99.4%</span></div><div class="fc-value">USD 13,050.00</div></div>
+            <div class="field-card green"><div class="fc-top"><span class="fc-label">HS Code</span><span class="fc-pct green">95.2%</span></div><div class="fc-value">8542.31.00</div></div>
+            <div class="field-card yellow"><div class="fc-top"><span class="fc-label">Incoterm <span class="fc-tag warn">Revisar</span></span><span class="fc-pct yellow">83.7%</span></div><div class="fc-value">FOB Shanghai</div></div>
+            <div class="field-card red"><div class="fc-top"><span class="fc-label">Descripción ítem 1 <span class="fc-tag err">Corrección requerida</span></span><span class="fc-pct red">71.2%</span></div><div class="fc-value red">Electronic Comp. A-200</div></div>
+          </div>
+          <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;">
+            <button class="btn btn-dark" style="flex:1;justify-content:center;" onclick="goto('review')"><i class="ti ti-edit"></i> Corregir campos</button>
+            <button class="btn btn-green" style="flex:1;justify-content:center;"><i class="ti ti-check"></i> Aprobar y guardar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SCREEN: MANUAL REVIEW ═══ -->
+    <section class="screen" id="screen-review">
+      <div class="split" style="flex:1;min-height:400px;">
+        <div class="split-left">
+          <div class="split-header"><i class="ti ti-file-text" style="font-size:14px;"></i> Documento original</div>
+          <div class="split-body" style="padding:14px;">
+            <div class="pdf-mock">
+              <h4>COMMERCIAL INVOICE</h4>
+              <div class="pdf-row"><span class="pdf-lbl">INVOICE NO: </span><span class="hl-blue">INV-2026-0048</span></div>
+              <div class="pdf-row"><span class="pdf-lbl">INCOTERM: </span><span class="hl-yellow">FOB Shanghai</span></div>
+              <table class="pdf-table">
+                <thead><tr><th>Description</th><th>Qty</th><th>Amount</th></tr></thead>
+                <tbody>
+                  <tr><td class="hl-red" style="border:1.5px dashed #DC2626;">Electronic Comp. A-200</td><td>500</td><td>USD 6,250.00</td></tr>
+                  <tr><td>Sensor Module B-45</td><td>200</td><td>USD 6,800.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:10px;">
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;"><span class="hl-yellow">campo</span><span style="color:var(--text-2);">Certeza media — revisar</span></div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:10px;"><span class="hl-red">campo</span><span style="color:var(--text-2);">Certeza baja — corrección requerida</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-right">
+          <div class="split-header"><i class="ti ti-list-check" style="font-size:14px;"></i> Campos para corregir</div>
+          <div class="split-body">
+            <div class="summary-approved">
+              <span style="font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:6px;"><i class="ti ti-circle-check" style="color:var(--gaia-green);font-size:15px;"></i> 6 campos aprobados automáticamente</span>
+              <span class="badge green">≥ 95%</span>
+            </div>
+
+            <!-- Incoterm -->
+            <div class="corr-card yellow" id="cc-incoterm">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-size:13px;font-weight:600;color:var(--text-1);display:flex;align-items:center;gap:6px;"><i class="ti ti-alert-triangle" style="color:#C8860A;font-size:14px;"></i> Incoterm</span>
+                <span class="badge orange">83.7% — revisar</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-2);margin-bottom:4px;">Valor extraído:</div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-s);padding:8px 10px;font-size:13px;display:flex;justify-content:space-between;align-items:center;">
+                <span>FOB Shanghai</span><i class="ti ti-robot" style="font-size:13px;color:var(--text-3);"></i>
+              </div>
+              <div style="font-size:11px;color:var(--text-2);margin-top:8px;">Corregir valor:</div>
+              <select style="width:100%;padding:8px 10px;border-radius:var(--radius-s);border:1px solid var(--border-s);font-size:13px;background:#fff;margin-top:4px;">
+                <option>FOB Shanghai</option>
+                <option>CIF Guayaquil</option>
+                <option>EXW Shenzhen</option>
+                <option>DDP Ecuador</option>
+              </select>
+              <div class="corr-btns">
+                <button class="btn btn-green btn-sm" style="flex:1;justify-content:center;" onclick="confirmar('cc-incoterm','incoterm-ok')"><i class="ti ti-check"></i> Confirmar</button>
+                <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">Rechazar</button>
+              </div>
+            </div>
+            <div id="incoterm-ok" class="field-card green" style="display:none;">
+              <div class="fc-top"><span class="fc-label">Incoterm</span><span class="fc-pct green">✓ Corregido</span></div>
+              <div class="fc-value">FOB Shanghai</div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="corr-card red" id="cc-desc">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-size:13px;font-weight:600;color:var(--text-1);display:flex;align-items:center;gap:6px;"><i class="ti ti-circle-x" style="color:#DC2626;font-size:14px;"></i> Descripción ítem 1</span>
+                <span class="badge red">71.2% — corrección requerida</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-2);margin-bottom:4px;">Valor extraído:</div>
+              <div style="background:#fff;border:1.5px solid #FECACA;border-radius:var(--radius-s);padding:8px 10px;font-size:13px;color:#DC2626;display:flex;justify-content:space-between;align-items:center;">
+                <span>Electronic Comp. A-200</span><i class="ti ti-robot" style="font-size:13px;color:#DC2626;"></i>
+              </div>
+              <div style="font-size:11px;color:var(--text-2);margin-top:8px;">Ingresa el valor correcto:</div>
+              <input type="text" value="Electronic Components A-200" style="width:100%;padding:8px 10px;border-radius:var(--radius-s);border:1px solid var(--border-s);font-size:13px;margin-top:4px;">
+              <div style="font-size:10px;color:var(--text-3);margin-top:5px;display:flex;align-items:center;gap:4px;"><i class="ti ti-info-circle" style="font-size:12px;"></i> Verifica con el PDF original a la izquierda</div>
+              <div class="corr-btns">
+                <button class="btn btn-green btn-sm" style="flex:1;justify-content:center;" onclick="confirmar('cc-desc','desc-ok')"><i class="ti ti-check"></i> Confirmar</button>
+                <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">Rechazar</button>
+              </div>
+            </div>
+            <div id="desc-ok" class="field-card green" style="display:none;">
+              <div class="fc-top"><span class="fc-label">Descripción ítem 1</span><span class="fc-pct green">✓ Corregido</span></div>
+              <div class="fc-value">Electronic Components A-200</div>
+            </div>
+
+          </div>
+          <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;">
+            <button class="btn btn-outline" style="flex:1;justify-content:center;" onclick="goto('results')">Cancelar</button>
+            <button class="btn btn-dark" style="flex:1;justify-content:center;" onclick="confirmarTodo()"><i class="ti ti-check"></i> Aprobar y guardar todo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SCREEN: HISTORY ═══ -->
+    <section class="screen" id="screen-history">
+      <div class="filter-row">
+        <div class="search-wrap">
+          <i class="ti ti-search"></i>
+          <input type="text" placeholder="Buscar por nombre de archivo...">
+        </div>
+        <select>
+          <option>Todos los tipos</option>
+          <option>Facturas</option>
+          <option>Packing lists</option>
+        </select>
+        <select>
+          <option>Todos los estados</option>
+          <option>Aprobado</option>
+          <option>En revisión</option>
+          <option>Rechazado</option>
+        </select>
+        <select>
+          <option>Últimos 30 días</option>
+          <option>Últimos 7 días</option>
+          <option>Este mes</option>
+          <option>Todo</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Archivo</th><th>Tipo</th><th>Fecha</th><th>Páginas</th><th>Certeza</th><th>Estado</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-weight:500;">INV_SHENZHEN_0048.pdf</td><td><span class="badge gray">Factura</span></td><td style="color:var(--text-2);">2026-07-25</td><td style="text-align:center;color:var(--text-2);">34</td><td><span class="acc high">97.3%</span></td><td><span class="badge green">Aprobado</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="goto('detail')"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+            <tr><td style="font-weight:500;">PL_GUANGZHOU_0031.pdf</td><td><span class="badge gray">Packing list</span></td><td style="color:var(--text-2);">2026-07-24</td><td style="text-align:center;color:var(--text-2);">12</td><td><span class="acc mid">83.7%</span></td><td><span class="badge orange">En revisión</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="goto('review')"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+            <tr><td style="font-weight:500;">INV_BEIJING_0022.pdf</td><td><span class="badge gray">Factura</span></td><td style="color:var(--text-2);">2026-07-24</td><td style="text-align:center;color:var(--text-2);">8</td><td><span class="acc high">96.5%</span></td><td><span class="badge green">Aprobado</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="goto('detail')"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+            <tr><td style="font-weight:500;">PL_SHANGHAI_0019.pdf</td><td><span class="badge gray">Packing list</span></td><td style="color:var(--text-2);">2026-07-23</td><td style="text-align:center;color:var(--text-2);">22</td><td><span class="acc low">71.2%</span></td><td><span class="badge red">Rechazado</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+            <tr><td style="font-weight:500;">INV_SHENZHEN_0046.pdf</td><td><span class="badge gray">Factura</span></td><td style="color:var(--text-2);">2026-07-23</td><td style="text-align:center;color:var(--text-2);">18</td><td><span class="acc high">99.1%</span></td><td><span class="badge green">Aprobado</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="goto('detail')"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+            <tr><td style="font-weight:500;">PL_SHENZHEN_0044.pdf</td><td><span class="badge gray">Packing list</span></td><td style="color:var(--text-2);">2026-07-22</td><td style="text-align:center;color:var(--text-2);">9</td><td><span class="acc high">95.8%</span></td><td><span class="badge green">Aprobado</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+            <tr><td style="font-weight:500;">INV_GUANGZHOU_0041.pdf</td><td><span class="badge gray">Factura</span></td><td style="color:var(--text-2);">2026-07-22</td><td style="text-align:center;color:var(--text-2);">41</td><td><span class="acc mid">88.4%</span></td><td><span class="badge orange">En revisión</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="goto('review')"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+            <tr><td style="font-weight:500;">INV_BEIJING_0039.pdf</td><td><span class="badge gray">Factura</span></td><td style="color:var(--text-2);">2026-07-21</td><td style="text-align:center;color:var(--text-2);">6</td><td><span class="acc high">98.7%</span></td><td><span class="badge green">Aprobado</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="goto('detail')"><i class="ti ti-eye"></i> Ver</button><button class="btn btn-sm" style="background:#E8F5E9;color:var(--excel);border:none;"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:12px;color:var(--text-2);">Mostrando 1–8 de 347 documentos</span>
+        <div class="pagination">
+          <button class="page-btn">←</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SCREEN: DETAIL / EXPORT ═══ -->
+    <section class="screen" id="screen-detail">
+      <div class="section-hdr">
+        <button class="btn btn-outline btn-sm" onclick="goto('history')"><i class="ti ti-arrow-left"></i> Historial</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm" id="btn-excel" style="background:var(--excel);color:#fff;border:none;" onclick="exportarExcel()">
+            <i class="ti ti-table-export"></i> Exportar a Excel
+          </button>
+          <button class="btn btn-dark btn-sm"><i class="ti ti-file-type-pdf"></i> Descargar PDF</button>
+        </div>
+      </div>
+
+      <div class="file-header">
+        <div class="fh-icon"><i class="ti ti-file-type-pdf" style="font-size:18px;color:#DC2626;"></i></div>
+        <div>
+          <div style="font-size:15px;font-weight:600;">INV_SHENZHEN_0048.pdf</div>
+          <div style="font-size:12px;color:var(--text-2);">Factura · 34 páginas · procesado el 25 jul 2026</div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card"><div class="detail-lbl">N° de factura</div><div class="detail-val">INV-2026-0048</div></div>
+        <div class="detail-card"><div class="detail-lbl">Fecha</div><div class="detail-val">2026-07-10</div></div>
+        <div class="detail-card"><div class="detail-lbl">Certeza global</div><div class="detail-val green">97.3%</div></div>
+        <div class="detail-card"><div class="detail-lbl">Estado</div><div class="detail-val green" style="display:flex;align-items:center;gap:5px;"><i class="ti ti-circle-check"></i> Aprobado</div></div>
+      </div>
+
+      <div class="two-col">
+        <div class="card"><div class="card-header"><i class="ti ti-building"></i> Vendedor</div><div class="card-body"><div style="font-weight:600;">Shenzhen Tech Co., Ltd.</div><div style="font-size:12px;color:var(--text-2);margin-top:3px;">No. 88 Industrial Ave, Shenzhen, China</div></div></div>
+        <div class="card"><div class="card-header"><i class="ti ti-building-store"></i> Comprador</div><div class="card-body"><div style="font-weight:600;">GAIA Consultores RPA S.A.</div><div style="font-size:12px;color:var(--text-2);margin-top:3px;">Av. Francisco de Orellana, Guayaquil, Ecuador</div></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><i class="ti ti-list"></i> Ítems extraídos <span style="font-size:11px;color:var(--text-3);font-weight:400;margin-left:auto;">2 líneas · 700 unidades</span></div>
+        <table>
+          <thead><tr><th>#</th><th>Descripción</th><th>HS Code</th><th style="text-align:right;">Cantidad</th><th style="text-align:right;">Precio unit.</th><th style="text-align:right;">Total</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--text-3);">1</td><td style="font-weight:500;">Components A-200</td><td style="color:var(--text-2);">8542.31.00</td><td style="text-align:right;">500</td><td style="text-align:right;">USD 12.50</td><td style="text-align:right;font-weight:600;">USD 6,250.00</td></tr>
+            <tr><td style="color:var(--text-3);">2</td><td style="font-weight:500;">Sensor Module B-45</td><td style="color:var(--text-2);">8542.31.00</td><td style="text-align:right;">200</td><td style="text-align:right;">USD 34.00</td><td style="text-align:right;font-weight:600;">USD 6,800.00</td></tr>
+            <tr style="background:var(--surface);"><td colspan="5" style="text-align:right;font-weight:600;border-top:2px solid var(--border-s);">TOTAL</td><td style="text-align:right;font-weight:700;color:var(--success-tx);font-size:14px;border-top:2px solid var(--border-s);">USD 13,050.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="detail-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="detail-card"><div class="detail-lbl">Incoterm</div><div class="detail-val">FOB Shanghai</div></div>
+        <div class="detail-card"><div class="detail-lbl">Tiempo de proceso</div><div class="detail-val">18 segundos</div></div>
+        <div class="detail-card"><div class="detail-lbl">Procesado por</div><div class="detail-val" style="font-size:13px;">Sistema IDP · IA</div></div>
+      </div>
+
+      <div class="notif" id="export-notif">
+        <i class="ti ti-circle-check" style="font-size:20px;color:var(--success-tx);"></i>
+        <span>Archivo Excel generado: INV_SHENZHEN_0048.xlsx</span>
+      </div>
+    </section>
+
+    <!-- ═══ SCREEN: SETTINGS ═══ -->
+    <section class="screen" id="screen-settings">
+      <div class="card" style="max-width:560px;">
+        <div class="card-header"><i class="ti ti-settings"></i> Configuración del sistema</div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:16px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">Umbral de certeza mínima</div>
+            <input type="range" min="80" max="100" value="95" style="width:100%;" oninput="document.getElementById('thresh-val').textContent=this.value+'%'">
+            <div style="font-size:12px;color:var(--text-2);margin-top:4px;">Valor actual: <strong id="thresh-val">95%</strong></div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">Modelo de IA</div>
+            <select style="width:100%;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--border);font-size:13px;">
+              <option>Ollama — LLaMA 3 (local)</option>
+              <option>Ollama — Mistral (local)</option>
+            </select>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">Motor OCR</div>
+            <select style="width:100%;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--border);font-size:13px;">
+              <option>Tesseract OCR</option>
+              <option>pdfplumber</option>
+            </select>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">Base de datos</div>
+            <input type="text" value="localhost:5432/gaia_idp" style="width:100%;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--border);font-size:13px;">
+          </div>
+          <button class="btn btn-dark" style="align-self:flex-start;"><i class="ti ti-device-floppy"></i> Guardar cambios</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
